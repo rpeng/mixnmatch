@@ -26,6 +26,7 @@ public class MemoryGameState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         font = loadUnicodeFonts(new java.awt.Font("Arial", PLAIN, 20));
+
     }
 
     @Override

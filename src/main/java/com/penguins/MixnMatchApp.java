@@ -21,6 +21,7 @@ public class MixnMatchApp extends StateBasedGame {
             appgc.setDisplayMode(800, 600, false);
             appgc.setShowFPS(true);
             appgc.setAlwaysRender(true);
+//            appgc.setFullscreen(true);
             appgc.setTargetFrameRate(30);
             appgc.start();
         } catch (SlickException ex) {
@@ -36,6 +37,7 @@ public class MixnMatchApp extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
+        gameController.init();
         addState(new MainMenuState(gameController));
         addState(new MemoryGameState(gameController));
     }
