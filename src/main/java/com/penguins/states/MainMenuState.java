@@ -1,6 +1,7 @@
 package com.penguins.states;
 
 import com.penguins.GameController;
+import com.penguins.components.MenuButton;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -10,9 +11,17 @@ import java.io.InputStream;
 
 public class MainMenuState extends BasicGameState {
     public static final int ID = 0;
+    public static final int MENU_OPTION_WIDTH = 30;
+
     private final GameController gc;
     private Font titleFont;
+    private Font optionsFont;
     private Music music;
+
+    private MenuButton newGame;
+    private MenuButton settings;
+    private MenuButton credits;
+    private MenuButton exit;
 
     public MainMenuState(GameController gameController) {
         this.gc = gameController;
@@ -29,26 +38,46 @@ public class MainMenuState extends BasicGameState {
         try {
             java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontFile);
             titleFont = new TrueTypeFont(font.deriveFont(40f), true);
+            optionsFont = new TrueTypeFont(font.deriveFont(20f), true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        music = new Music("normal_menu.ogg");
+//        music = new Music("normal_menu.ogg");
+
+        newGame = new MenuButton(container, "New game", optionsFont);
+        settings = new MenuButton(container, "Settings", optionsFont);
+        credits = new MenuButton(container, "Credits", optionsFont);
+        exit = new MenuButton(container, "Exit", optionsFont);
+
+        newGame.addListener((src) -> game.enterState(MemoryGameState.ID));
+        exit.addListener((src) -> System.exit(0));
+
+        newGame.setLocation(180, 400);
+        settings.setLocation(180, 400 + MENU_OPTION_WIDTH);
+        credits.setLocation(180, 400 + MENU_OPTION_WIDTH * 2);
+        exit.setLocation(180, 400 + MENU_OPTION_WIDTH * 3);
     }
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        music.loop();
+//        music.loop();
     }
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-        music.stop();
+//        music.stop();
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.setFont(titleFont);
         g.drawString("Mix-n-Match!", 180, 100);
+
+        g.setFont(optionsFont);
+        newGame.render(container, g);
+        settings.render(container, g);
+        credits.render(container, g);
+        exit.render(container, g);
     }
 
     @Override
