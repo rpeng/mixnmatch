@@ -25,6 +25,7 @@ public class MainMenuState extends BasicGameState {
 
     private Image background;
     private Image title;
+    private Animation card[] = new Animation[4];
 
     private float x1, x2;
     private float titleY;
@@ -80,6 +81,16 @@ public class MainMenuState extends BasicGameState {
         background = new Image("background.png");
         title = new Image("menu_title.png");
 
+        // Card
+        Image frames[] = new Image[8];
+        for (int i = 0; i < 8; i++){
+            frames[i] = new Image("animations/flippedTiles/flippedTile_" + i + ".png");
+        }
+
+        for (int i = 0; i < 4; i++){
+            card[i] = new Animation(frames, 120);
+        }
+
         x1 = 0;
         x2 = 799;
 
@@ -110,6 +121,10 @@ public class MainMenuState extends BasicGameState {
         g.drawImage(background, x1, 0);
         g.drawImage(background, x2, 0);
         title.drawCentered(WINDOW_WIDTH / 2, titleY);
+
+        for (int i = 0; i < 4; i++){
+            card[i].draw(215 + (i * 100), 225);
+        }
 //        g.drawString("Mix-n-Match!", 180, 100);
 
         g.setFont(optionsFont);
