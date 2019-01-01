@@ -2,7 +2,7 @@ package com.penguins.states;
 
 import com.penguins.GameController;
 import com.penguins.components.MenuButtonComponent;
-import com.penguins.sound.Song;
+import com.penguins.sound.SoundController;
 import com.penguins.sound.SoundEffect;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -12,6 +12,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 import java.io.InputStream;
+
+import static com.penguins.sound.SoundEffect.HOVER;
+import static com.penguins.sound.SoundEffect.SELECT;
 
 public class MainMenuState extends BasicGameState {
     public static final int ID = 0;
@@ -60,16 +63,13 @@ public class MainMenuState extends BasicGameState {
             throw new RuntimeException(e);
         }
 
-        newGame = new MenuButtonComponent(container, "New game", optionsFont);
-        settings = new MenuButtonComponent(container, "Settings", optionsFont);
-        credits = new MenuButtonComponent(container, "Credits", optionsFont);
-        exit = new MenuButtonComponent(container, "Exit", optionsFont);
+        newGame = createMenuButton(container, "New game");
+        settings = createMenuButton(container, "Settings");
+        credits = createMenuButton(container, "Credits");
+        exit = createMenuButton(container, "Exit");
 
         newGame.addListener((src) -> game.enterState(MemoryGameState.ID));
-        newGame.addListener((src) -> gc.getSoundController().playSoundEffect(SoundEffect.SELECT));
-
         exit.addListener((src) -> container.exit());
-        exit.addListener((src) -> gc.getSoundController().playSoundEffect(SoundEffect.SELECT));
 
         newGame.setLocation(180, 400);
         settings.setLocation(180, 400 + MENU_OPTION_WIDTH);
@@ -83,11 +83,11 @@ public class MainMenuState extends BasicGameState {
 
         // Card
         Image frames[] = new Image[8];
-        for (int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             frames[i] = new Image("animations/flippedTiles/flippedTile_" + i + ".png");
         }
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             card[i] = new Animation(frames, 120);
         }
 
@@ -97,11 +97,17 @@ public class MainMenuState extends BasicGameState {
         titleY = 80;
     }
 
+    private MenuButtonComponent createMenuButton(GameContainer container, String title) {
+        SoundController sc = gc.getSoundController();
+        MenuButtonComponent menuButton = new MenuButtonComponent(container, title, optionsFont);
+        menuButton.setOnHover(() -> sc.playSoundEffect(HOVER));
+        menuButton.addListener((src) -> sc.playSoundEffect(SELECT));
+        return menuButton;
+    }
+
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-
 //        gc.getSoundController().playSoundtrack(Song.TITLE);
-
         container.getInput().addPrimaryListener(newGame);
         container.getInput().addPrimaryListener(exit);
         container.getInput().addPrimaryListener(settings);
@@ -110,8 +116,7 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-        if (gc.getSoundController().getCurrentSong() != null)
-            gc.getSoundController().getCurrentSong().fade(100, 0, true);
+        gc.getSoundController().fadeOut();
         container.getInput().removeAllListeners();
     }
 
@@ -122,10 +127,9 @@ public class MainMenuState extends BasicGameState {
         g.drawImage(background, x2, 0);
         title.drawCentered(WINDOW_WIDTH / 2, titleY);
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             card[i].draw(215 + (i * 100), 225);
         }
-//        g.drawString("Mix-n-Match!", 180, 100);
 
         g.setFont(optionsFont);
         newGame.render(container, g);
@@ -136,7 +140,6 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
         // Sliding background
         x1--;
         x2--;

@@ -10,7 +10,7 @@ import java.util.Map;
 public class SoundController {
 
 
-    private Music currentSong = null;
+    private Music currentSong;
     private Map<Song, Music> music;
     private Map<SoundEffect, Sound> sfx;
 
@@ -27,6 +27,12 @@ public class SoundController {
     public void playSoundtrack(Song song) {
         music.get(song).loop();
         currentSong = music.get(song);
+    }
+
+    public void fadeOut() {
+        if (currentSong != null) {
+            currentSong.fade(100, 0, true);
+        }
     }
 
     public Music getCurrentSong(){

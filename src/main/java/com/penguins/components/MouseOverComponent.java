@@ -22,7 +22,15 @@ public abstract class MouseOverComponent extends BasicComponent {
 
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-        isMouseOver = getShapeBounds().contains(newx, newy);
+        boolean currentMouseIsOver = getShapeBounds().contains(newx, newy);
+        if (currentMouseIsOver && !isMouseOver) {
+            onHover();
+        }
+        isMouseOver = currentMouseIsOver;
+
+    }
+
+    protected void onHover() {
     }
 
     public boolean isMouseOver() {
