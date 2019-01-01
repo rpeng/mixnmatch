@@ -10,10 +10,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import static java.awt.Font.PLAIN;
 
 public class MemoryGameState extends BasicGameState {
-    public static final int ID = 0;
+    public static final int ID = 1;
     private final GameController gc;
     private Font font;
-    private Music music;
 
     public MemoryGameState(GameController controller) {
         this.gc = controller;
@@ -27,17 +26,6 @@ public class MemoryGameState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         font = loadUnicodeFonts(new java.awt.Font("Arial", PLAIN, 20));
-        music = new Music("normal_menu.ogg");
-    }
-
-    @Override
-    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        music.loop();
-    }
-
-    @Override
-    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-        music.stop();
     }
 
     @Override

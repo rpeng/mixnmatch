@@ -1,5 +1,6 @@
 package com.penguins;
 
+import com.penguins.states.MainMenuState;
 import com.penguins.states.MemoryGameState;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -35,6 +36,7 @@ public class MixnMatchApp extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
+        addState(new MainMenuState(gameController));
         addState(new MemoryGameState(gameController));
     }
 }
