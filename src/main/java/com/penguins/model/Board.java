@@ -1,4 +1,4 @@
-package com.penguins.mixnmatch;
+package com.penguins.model;
 
 import com.google.common.base.Preconditions;
 
