@@ -20,7 +20,7 @@ public class MixnMatchApp extends BasicGame {
         try {
             AppGameContainer appgc;
             appgc = new AppGameContainer(new MixnMatchApp("Simple Slick Game"));
-            appgc.setDisplayMode(640, 480, false);
+            appgc.setDisplayMode(800, 600, false);
             appgc.setShowFPS(true);
             appgc.start();
         } catch (SlickException ex) {
@@ -59,12 +59,10 @@ public class MixnMatchApp extends BasicGame {
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        gameContainer.setTargetFrameRate(10);
         graphics.setFont(font);
         graphics.setColor(Color.red);
         String toBlit = Zalgo.convert("Hello world!");
         System.out.println(toBlit);
         graphics.drawString(toBlit, 100.0f, 100.0f);
-        Uninterruptibles.sleepUninterruptibly(20, TimeUnit.MILLISECONDS);
     }
 }

@@ -2,7 +2,6 @@ package com.penguins.mixnmatch;
 
 import com.google.common.base.Preconditions;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +43,10 @@ public class Board {
         }
 
         return new Board(tiles);
+    }
+
+    public char[][] getTiles() {
+        return tiles;
     }
 
     @Override
