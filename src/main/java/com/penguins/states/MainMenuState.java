@@ -3,6 +3,8 @@ package com.penguins.states;
 import com.penguins.GameController;
 import com.penguins.components.MenuButton;
 import org.newdawn.slick.*;
+import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.font.effects.OutlineEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
@@ -15,7 +17,7 @@ public class MainMenuState extends BasicGameState {
 
     private final GameController gc;
     private Font titleFont;
-    private Font optionsFont;
+    private UnicodeFont optionsFont;
     private Music music;
     private Image background;
     private float x1, x2;
@@ -40,11 +42,15 @@ public class MainMenuState extends BasicGameState {
         try {
             java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontFile);
             titleFont = new TrueTypeFont(font.deriveFont(40f), true);
-            optionsFont = new TrueTypeFont(font.deriveFont(20f), true);
+            optionsFont = new UnicodeFont(font.deriveFont(20f));
+            optionsFont.addAsciiGlyphs();
+            optionsFont.getEffects().add(new OutlineEffect(2, java.awt.Color.black));
+            optionsFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+            optionsFont.loadGlyphs();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        music = new Music("normal_menu.ogg");
+//        music = new Music("normal_menu.ogg");
 
         newGame = new MenuButton(container, "New game", optionsFont);
         settings = new MenuButton(container, "Settings", optionsFont);
@@ -52,18 +58,16 @@ public class MainMenuState extends BasicGameState {
         exit = new MenuButton(container, "Exit", optionsFont);
 
         newGame.addListener((src) -> game.enterState(MemoryGameState.ID));
-        exit.addListener((src) -> System.exit(0));
+        exit.addListener((src) -> container.exit());
 
         newGame.setLocation(180, 400);
         settings.setLocation(180, 400 + MENU_OPTION_WIDTH);
         credits.setLocation(180, 400 + MENU_OPTION_WIDTH * 2);
         exit.setLocation(180, 400 + MENU_OPTION_WIDTH * 3);
-//        music = new Music("normal_menu.ogg");
         background = new Image("background.png");
 
         x1 = 0;
         x2 = 799;
-
     }
 
     @Override
