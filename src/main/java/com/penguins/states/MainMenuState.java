@@ -17,6 +17,8 @@ public class MainMenuState extends BasicGameState {
     private Font titleFont;
     private Font optionsFont;
     private Music music;
+    private Image background;
+    private float x1, x2;
 
     private MenuButton newGame;
     private MenuButton settings;
@@ -42,7 +44,7 @@ public class MainMenuState extends BasicGameState {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-//        music = new Music("normal_menu.ogg");
+        music = new Music("normal_menu.ogg");
 
         newGame = new MenuButton(container, "New game", optionsFont);
         settings = new MenuButton(container, "Settings", optionsFont);
@@ -56,6 +58,12 @@ public class MainMenuState extends BasicGameState {
         settings.setLocation(180, 400 + MENU_OPTION_WIDTH);
         credits.setLocation(180, 400 + MENU_OPTION_WIDTH * 2);
         exit.setLocation(180, 400 + MENU_OPTION_WIDTH * 3);
+//        music = new Music("normal_menu.ogg");
+        background = new Image("background.png");
+
+        x1 = 0;
+        x2 = 799;
+
     }
 
     @Override
@@ -71,6 +79,8 @@ public class MainMenuState extends BasicGameState {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.setFont(titleFont);
+        g.drawImage(background, x1, 0);
+        g.drawImage(background, x2, 0);
         g.drawString("Mix-n-Match!", 180, 100);
 
         g.setFont(optionsFont);
@@ -82,6 +92,12 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
+        x1--;
+        x2--;
+        if (x1 <= -799) {
+            x1 = 799;
+        }else if (x2 <= -799) {
+            x2 = 799;
+        }
     }
 }
