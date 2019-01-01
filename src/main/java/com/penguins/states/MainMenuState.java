@@ -1,7 +1,7 @@
 package com.penguins.states;
 
 import com.penguins.GameController;
-import com.penguins.components.MenuButton;
+import com.penguins.components.MenuButtonComponent;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.font.effects.OutlineEffect;
@@ -22,10 +22,10 @@ public class MainMenuState extends BasicGameState {
     private Image background;
     private float x1, x2;
 
-    private MenuButton newGame;
-    private MenuButton settings;
-    private MenuButton credits;
-    private MenuButton exit;
+    private MenuButtonComponent newGame;
+    private MenuButtonComponent settings;
+    private MenuButtonComponent credits;
+    private MenuButtonComponent exit;
 
     public MainMenuState(GameController gameController) {
         this.gc = gameController;
@@ -52,10 +52,10 @@ public class MainMenuState extends BasicGameState {
         }
 //        music = new Music("normal_menu.ogg");
 
-        newGame = new MenuButton(container, "New game", optionsFont);
-        settings = new MenuButton(container, "Settings", optionsFont);
-        credits = new MenuButton(container, "Credits", optionsFont);
-        exit = new MenuButton(container, "Exit", optionsFont);
+        newGame = new MenuButtonComponent(container, "New game", optionsFont);
+        settings = new MenuButtonComponent(container, "Settings", optionsFont);
+        credits = new MenuButtonComponent(container, "Credits", optionsFont);
+        exit = new MenuButtonComponent(container, "Exit", optionsFont);
 
         newGame.addListener((src) -> game.enterState(MemoryGameState.ID));
         exit.addListener((src) -> container.exit());
@@ -73,11 +73,16 @@ public class MainMenuState extends BasicGameState {
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 //        music.loop();
+        container.getInput().addPrimaryListener(newGame);
+        container.getInput().addPrimaryListener(exit);
+        container.getInput().addPrimaryListener(settings);
+        container.getInput().addPrimaryListener(credits);
     }
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
 //        music.stop();
+        container.getInput().removeAllListeners();
     }
 
     @Override
@@ -100,7 +105,7 @@ public class MainMenuState extends BasicGameState {
         x2--;
         if (x1 <= -799) {
             x1 = 799;
-        }else if (x2 <= -799) {
+        } else if (x2 <= -799) {
             x2 = 799;
         }
     }
