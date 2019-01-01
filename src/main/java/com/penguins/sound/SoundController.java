@@ -17,7 +17,9 @@ public class SoundController {
     public SoundController() {}
 
     public void loadSounds() throws SlickException {
-        sfx = ImmutableMap.of(SoundEffect.HOVER, new Sound("sfx/sfx_hover.ogg"),
+        sfx = ImmutableMap.of(SoundEffect.HOVER_C, new Sound("sfx/sfx_hover_C.ogg"),
+                SoundEffect.HOVER_D, new Sound("sfx/sfx_hover_D.ogg"),
+                SoundEffect.HOVER_E, new Sound("sfx/sfx_hover_E.ogg"),
                 SoundEffect.SELECT, new Sound("sfx/sfx_select.ogg"));
 
         music = ImmutableMap.of(Song.TITLE, new Music("music/normal_menu.ogg"));
@@ -31,7 +33,7 @@ public class SoundController {
 
     public void fadeOut() {
         if (currentSong != null) {
-            currentSong.fade(100, 0, true);
+            currentSong.fade(1000, 0, true);
         }
     }
 

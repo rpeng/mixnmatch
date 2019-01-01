@@ -13,8 +13,8 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import java.io.InputStream;
 
-import static com.penguins.sound.SoundEffect.HOVER;
-import static com.penguins.sound.SoundEffect.SELECT;
+import static com.penguins.sound.Song.TITLE;
+import static com.penguins.sound.SoundEffect.*;
 
 public class MainMenuState extends BasicGameState {
     public static final int ID = 0;
@@ -29,6 +29,8 @@ public class MainMenuState extends BasicGameState {
     private Image background;
     private Image title;
     private Animation card[] = new Animation[4];
+
+    private Image testCard;
 
     private float x1, x2;
     private float titleY;
@@ -63,10 +65,10 @@ public class MainMenuState extends BasicGameState {
             throw new RuntimeException(e);
         }
 
-        newGame = createMenuButton(container, "New game");
-        settings = createMenuButton(container, "Settings");
-        credits = createMenuButton(container, "Credits");
-        exit = createMenuButton(container, "Exit");
+        newGame = createMenuButton(container, "New game", HOVER_C);
+        settings = createMenuButton(container, "Settings", HOVER_D);
+        credits = createMenuButton(container, "Credits", HOVER_E);
+        exit = createMenuButton(container, "Exit", HOVER_C);
 
         newGame.addListener((src) -> game.enterState(MemoryGameState.ID));
         exit.addListener((src) -> container.exit());
@@ -80,6 +82,7 @@ public class MainMenuState extends BasicGameState {
         // Images
         background = new Image("background.png");
         title = new Image("menu_title.png");
+        testCard = new Image("tileOtamatoneHappy.png");
 
         // Card
         Image frames[] = new Image[8];
@@ -97,17 +100,17 @@ public class MainMenuState extends BasicGameState {
         titleY = 80;
     }
 
-    private MenuButtonComponent createMenuButton(GameContainer container, String title) {
+    private MenuButtonComponent createMenuButton(GameContainer container, String title, SoundEffect hoverEffect) {
         SoundController sc = gc.getSoundController();
         MenuButtonComponent menuButton = new MenuButtonComponent(container, title, optionsFont);
-        menuButton.setOnHover(() -> sc.playSoundEffect(HOVER));
+        menuButton.setOnHover(() -> sc.playSoundEffect(hoverEffect));
         menuButton.addListener((src) -> sc.playSoundEffect(SELECT));
         return menuButton;
     }
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-//        gc.getSoundController().playSoundtrack(Song.TITLE);
+        gc.getSoundController().playSoundtrack(TITLE);
         container.getInput().addPrimaryListener(newGame);
         container.getInput().addPrimaryListener(exit);
         container.getInput().addPrimaryListener(settings);

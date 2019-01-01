@@ -1,5 +1,5 @@
 package com.penguins.sound;
 
 public enum SoundEffect {
-    SELECT, HOVER
+    SELECT, HOVER_C, HOVER_D, HOVER_E
 }
