@@ -6,7 +6,6 @@ import com.penguins.sound.SoundController;
 import com.penguins.sound.SoundEffect;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.font.effects.OutlineEffect;
 import org.newdawn.slick.font.effects.ShadowEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -52,7 +51,7 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        InputStream fontFile = ResourceLoader.getResourceAsStream("font.ttf");
+        InputStream fontFile = ResourceLoader.getResourceAsStream("fonts/font.ttf");
         try {
             java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontFile);
 //            java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.PLAIN, 22);
@@ -88,8 +87,8 @@ public class MainMenuState extends BasicGameState {
 
 
         // Images
-        background = new Image("background_dark.png");
-        title = new Image("menu_title.png");
+        background = new Image("backgrounds/background_dark.png");
+        title = new Image("sprites/menu_title.png");
         testCard = new Image("tiles/tileOtamatoneHappy.png");
 
         // Card

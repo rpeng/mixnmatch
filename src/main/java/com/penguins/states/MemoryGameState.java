@@ -4,6 +4,7 @@ import com.penguins.GameController;
 import com.penguins.components.TileComponent;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -12,6 +13,7 @@ public class MemoryGameState extends BasicGameState {
     public static final int ID = 1;
     private final GameController gc;
     private TileComponent[][] tileComponents;
+    private Image background;
 
     public MemoryGameState(GameController controller) {
         this.gc = controller;
@@ -24,6 +26,7 @@ public class MemoryGameState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        background = new Image("backgrounds/matchingGameBackground.png");
     }
 
     @Override
@@ -49,6 +52,8 @@ public class MemoryGameState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+
+        g.drawImage(background, 0, 0);
         for (int i = 0; i < tileComponents.length; i++) {
             for (int j = 0; j < tileComponents[0].length; j++) {
                 tileComponents[i][j].render(container, g);

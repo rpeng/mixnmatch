@@ -11,7 +11,7 @@ public class GameController {
     private SoundController soundController;
 
     public GameController() {
-        this.board = Board.randBoard(4, 5);
+        this.board = Board.randBoard(2, 4);
         this.soundController = new SoundController();
     }
 
