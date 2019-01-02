@@ -120,9 +120,7 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-
 //        gc.getSoundController().playSoundtrack(TITLE);
-
         container.getInput().addPrimaryListener(newGame);
         container.getInput().addPrimaryListener(exit);
         container.getInput().addPrimaryListener(settings);

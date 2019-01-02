@@ -5,7 +5,7 @@ import org.newdawn.slick.gui.BasicComponent;
 import org.newdawn.slick.gui.GUIContext;
 
 public abstract class MouseOverComponent extends BasicComponent {
-    private boolean isMouseOver;
+    private boolean isMouseOver = false;
 
     public MouseOverComponent(GUIContext container) {
         super(container);
@@ -24,13 +24,18 @@ public abstract class MouseOverComponent extends BasicComponent {
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
         boolean currentMouseIsOver = getShapeBounds().contains(newx, newy);
         if (currentMouseIsOver && !isMouseOver) {
-            onHover();
+            onHoverStart();
+        } else if (!currentMouseIsOver && isMouseOver) {
+            onHoverEnd();
         }
         isMouseOver = currentMouseIsOver;
 
     }
 
-    protected void onHover() {
+    protected void onHoverStart() {
+    }
+
+    protected void onHoverEnd() {
     }
 
     public boolean isMouseOver() {

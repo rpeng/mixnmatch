@@ -1,6 +1,7 @@
 package com.penguins;
 
 import com.penguins.components.TileComponent;
+import com.penguins.model.Tiles;
 import com.penguins.states.MainMenuState;
 import com.penguins.states.MemoryGameState;
 import org.newdawn.slick.AppGameContainer;
@@ -39,6 +40,7 @@ public class MixnMatchApp extends StateBasedGame {
     public void initStatesList(GameContainer container) throws SlickException {
         gameController.init();
         TileComponent.init();
+        Tiles.loadTiles();
         addState(new MainMenuState(gameController));
         addState(new MemoryGameState(gameController));
     }

@@ -36,7 +36,7 @@ public class MenuButtonComponent extends MouseOverComponent {
     }
 
     @Override
-    protected void onHover() {
+    protected void onHoverStart() {
         onHoverRunnable.run();
     }
 

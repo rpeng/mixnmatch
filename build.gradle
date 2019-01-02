@@ -16,3 +16,14 @@ dependencies {
     compile group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
     compile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
 }
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.penguins.MixnMatchApp'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
