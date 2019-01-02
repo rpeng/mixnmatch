@@ -9,16 +9,18 @@ import org.newdawn.slick.gui.GUIContext;
 public class MenuButtonComponent extends MouseOverComponent {
     private final String title;
     private final Font menuFont;
+    private final Font hoverFont;
     private Runnable onHoverRunnable;
 
-    public MenuButtonComponent(GUIContext container, String title, Font menuFont) {
-        this(container, title, menuFont, Runnables.doNothing());
+    public MenuButtonComponent(GUIContext container, String title, Font menuFont, Font hoverFont) {
+        this(container, title, menuFont, hoverFont, Runnables.doNothing());
     }
 
-    public MenuButtonComponent(GUIContext container, String title, Font menuFont, Runnable onHoverRunnable) {
+    public MenuButtonComponent(GUIContext container, String title, Font menuFont, Font hoverFont, Runnable onHoverRunnable) {
         super(container);
         this.title = title;
         this.menuFont = menuFont;
+        this.hoverFont = hoverFont;
         this.width = menuFont.getWidth(title);
         this.height = menuFont.getHeight(title);
         this.onHoverRunnable = onHoverRunnable;
@@ -40,7 +42,13 @@ public class MenuButtonComponent extends MouseOverComponent {
 
     @Override
     public void renderImpl(GUIContext container, Graphics g) {
-        g.setFont(menuFont);
+
+        if (isMouseOver()){
+            g.setFont(hoverFont);
+        }else{
+            g.setFont(menuFont);
+        }
+
         g.drawString(title, getX(), getY());
     }
 }

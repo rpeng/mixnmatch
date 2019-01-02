@@ -7,13 +7,13 @@ import com.penguins.sound.SoundEffect;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.font.effects.OutlineEffect;
+import org.newdawn.slick.font.effects.ShadowEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 import java.io.InputStream;
 
-import static com.penguins.sound.Song.TITLE;
 import static com.penguins.sound.SoundEffect.*;
 
 public class MainMenuState extends BasicGameState {
@@ -23,8 +23,8 @@ public class MainMenuState extends BasicGameState {
     public static final int WINDOW_HEIGHT = 600;
 
     private final GameController gc;
-    private Font titleFont;
     private UnicodeFont optionsFont;
+    private UnicodeFont highlightedFont;
 
     private Image background;
     private Image title;
@@ -52,15 +52,23 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        InputStream fontFile = ResourceLoader.getResourceAsStream("Chalkduster.ttf");
+        InputStream fontFile = ResourceLoader.getResourceAsStream("font.ttf");
         try {
             java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontFile);
-            titleFont = new TrueTypeFont(font.deriveFont(40f), true);
-            optionsFont = new UnicodeFont(font.deriveFont(20f));
+//            java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.PLAIN, 22);
+            optionsFont = new UnicodeFont(font.deriveFont(28f));
             optionsFont.addAsciiGlyphs();
-            optionsFont.getEffects().add(new OutlineEffect(2, java.awt.Color.black));
+//            optionsFont.getEffects().add(new OutlineEffect(3, java.awt.Color.black));
+            optionsFont.getEffects().add(new ShadowEffect(java.awt.Color.black, 4, 4, 0.7f));
             optionsFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
             optionsFont.loadGlyphs();
+
+            highlightedFont = new UnicodeFont(font.deriveFont(32f));
+            highlightedFont.addAsciiGlyphs();
+            highlightedFont.getEffects().add(new ShadowEffect(java.awt.Color.black, 4, 4, 0.7f));
+            highlightedFont.getEffects().add(new ColorEffect(new java.awt.Color(255, 90, 255)));
+            highlightedFont.loadGlyphs();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -80,9 +88,9 @@ public class MainMenuState extends BasicGameState {
 
 
         // Images
-        background = new Image("background.png");
+        background = new Image("background_dark.png");
         title = new Image("menu_title.png");
-        testCard = new Image("tileOtamatoneHappy.png");
+        testCard = new Image("tiles/tileOtamatoneHappy.png");
 
         // Card
         Image frames[] = new Image[8];
@@ -102,15 +110,19 @@ public class MainMenuState extends BasicGameState {
 
     private MenuButtonComponent createMenuButton(GameContainer container, String title, SoundEffect hoverEffect) {
         SoundController sc = gc.getSoundController();
-        MenuButtonComponent menuButton = new MenuButtonComponent(container, title, optionsFont);
+        MenuButtonComponent menuButton = new MenuButtonComponent(container, title, optionsFont, highlightedFont);
+
         menuButton.setOnHover(() -> sc.playSoundEffect(hoverEffect));
+
         menuButton.addListener((src) -> sc.playSoundEffect(SELECT));
         return menuButton;
     }
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        gc.getSoundController().playSoundtrack(TITLE);
+
+//        gc.getSoundController().playSoundtrack(TITLE);
+
         container.getInput().addPrimaryListener(newGame);
         container.getInput().addPrimaryListener(exit);
         container.getInput().addPrimaryListener(settings);
@@ -125,16 +137,16 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.setFont(titleFont);
         g.drawImage(background, x1, 0);
         g.drawImage(background, x2, 0);
-        title.drawCentered(WINDOW_WIDTH / 2, titleY);
+        title.drawCentered(WINDOW_WIDTH / 2.0f, titleY);
 
         for (int i = 0; i < 4; i++) {
             card[i].draw(215 + (i * 100), 225);
         }
 
         g.setFont(optionsFont);
+
         newGame.render(container, g);
         settings.render(container, g);
         credits.render(container, g);

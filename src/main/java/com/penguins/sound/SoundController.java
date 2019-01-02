@@ -31,6 +31,11 @@ public class SoundController {
         currentSong = music.get(song);
     }
 
+    public void playSoundtrack(Song song, float volume) {
+        music.get(song).setVolume(volume);
+        music.get(song).loop();
+        currentSong = music.get(song);
+    }
     public void fadeOut() {
         if (currentSong != null) {
             currentSong.fade(1000, 0, true);
