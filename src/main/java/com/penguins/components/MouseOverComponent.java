@@ -17,6 +17,7 @@ public abstract class MouseOverComponent extends BasicComponent {
     public void mousePressed(int button, int x, int y) {
         if (getShapeBounds().contains(x, y)) {
             notifyListeners();
+            onMousePressed();
         }
     }
 
@@ -36,6 +37,9 @@ public abstract class MouseOverComponent extends BasicComponent {
     }
 
     protected void onHoverEnd() {
+    }
+
+    protected void onMousePressed() {
     }
 
     public boolean isMouseOver() {

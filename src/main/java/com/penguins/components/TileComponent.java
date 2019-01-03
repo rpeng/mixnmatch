@@ -1,5 +1,6 @@
 package com.penguins.components;
 
+import com.penguins.animations.TileFlipAnimation;
 import com.penguins.text.Zalgo;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -12,6 +13,8 @@ public class TileComponent extends MouseOverComponent {
     private static Font font;
     private final char symbol;
     private final Animation idleAnimation;
+    private final Animation tileFlipAnimation;
+    private boolean flipping;
 
     public TileComponent(GUIContext container, char symbol) {
         super(container);
@@ -19,6 +22,8 @@ public class TileComponent extends MouseOverComponent {
         this.idleAnimation = new Animation(idleFrames, 60);
         this.idleAnimation.setLooping(true);
         this.idleAnimation.stop();
+
+        this.tileFlipAnimation = new TileFlipAnimation(idleFrames[0], 10, 10);
     }
 
     public static void init() throws SlickException {
@@ -65,8 +70,18 @@ public class TileComponent extends MouseOverComponent {
     }
 
     @Override
+    public void onMousePressed() {
+        flipping = true;
+        tileFlipAnimation.start();
+    }
+
+    @Override
     public void renderImpl(GUIContext container, Graphics g) {
-        g.drawAnimation(idleAnimation, x, y);
+        if (flipping) {
+            g.drawAnimation(tileFlipAnimation, x, y);
+        } else {
+            g.drawAnimation(idleAnimation, x, y);
+        }
 //        g.setFont(font);
 //        g.setColor(Color.red);
 //        g.setLineWidth(5.0f);
