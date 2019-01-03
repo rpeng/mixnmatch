@@ -2,6 +2,7 @@ package com.penguins.states;
 
 import com.penguins.GameController;
 import com.penguins.components.TileComponent;
+import com.penguins.sound.Song;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -31,6 +32,9 @@ public class MemoryGameState extends BasicGameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+
+        gc.getSoundController().fadeTo(Song.BOARD);
+
         char[][] boardTiles = gc.getBoard().getTiles();
         tileComponents = new TileComponent[boardTiles.length][boardTiles[0].length];
 

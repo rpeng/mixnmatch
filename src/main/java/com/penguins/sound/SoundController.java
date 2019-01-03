@@ -2,6 +2,7 @@ package com.penguins.sound;
 
 import com.google.common.collect.ImmutableMap;
 import org.newdawn.slick.Music;
+import org.newdawn.slick.MusicListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
@@ -22,10 +23,24 @@ public class SoundController {
                 SoundEffect.HOVER_E, new Sound("sfx/sfx_hover_E.ogg"),
                 SoundEffect.SELECT, new Sound("sfx/sfx_select.ogg"));
 
-        music = ImmutableMap.of(Song.TITLE, new Music("music/normal_menu.ogg"));
+        music = ImmutableMap.of(Song.TITLE, new Music("music/normal_menu.ogg"),
+                Song.BOARD, new Music("music/normal_board.ogg"));
 
     }
 
+    public void fadeTo(Song nextSong){
+        currentSong.fade(1000, 0, true);
+        currentSong.addListener(new MusicListener() {
+            @Override
+            public void musicEnded(Music m) {
+                playSoundtrack(nextSong);
+                currentSong = music.get(nextSong);
+            }
+
+            @Override
+            public void musicSwapped(Music music, Music newMusic) {}
+        });
+    }
     public void playSoundtrack(Song song) {
         music.get(song).loop();
         currentSong = music.get(song);

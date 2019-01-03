@@ -9,10 +9,13 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.font.effects.ShadowEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.util.ResourceLoader;
 
 import java.io.InputStream;
 
+import static com.penguins.sound.Song.TITLE;
 import static com.penguins.sound.SoundEffect.*;
 
 public class MainMenuState extends BasicGameState {
@@ -77,7 +80,7 @@ public class MainMenuState extends BasicGameState {
         credits = createMenuButton(container, "Credits", HOVER_E);
         exit = createMenuButton(container, "Exit", HOVER_C);
 
-        newGame.addListener((src) -> game.enterState(MemoryGameState.ID));
+        newGame.addListener((src) -> game.enterState(MemoryGameState.ID, new FadeOutTransition(Color.black, 200), new FadeInTransition(Color.black, 200)));
         exit.addListener((src) -> container.exit());
 
         newGame.setLocation(180, 400);
@@ -119,7 +122,7 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-//        gc.getSoundController().playSoundtrack(TITLE);
+        gc.getSoundController().playSoundtrack(TITLE);
         container.getInput().addPrimaryListener(newGame);
         container.getInput().addPrimaryListener(exit);
         container.getInput().addPrimaryListener(settings);
@@ -128,7 +131,6 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-        gc.getSoundController().fadeOut();
         container.getInput().removeAllListeners();
     }
 
