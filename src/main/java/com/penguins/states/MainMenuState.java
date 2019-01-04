@@ -2,18 +2,14 @@ package com.penguins.states;
 
 import com.penguins.GameController;
 import com.penguins.components.MenuButtonComponent;
+import com.penguins.font.GameFont;
 import com.penguins.sound.SoundController;
 import com.penguins.sound.SoundEffect;
 import org.newdawn.slick.*;
-import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.font.effects.ShadowEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.newdawn.slick.util.ResourceLoader;
-
-import java.io.InputStream;
 
 import static com.penguins.sound.Song.TITLE;
 import static com.penguins.sound.SoundEffect.*;
@@ -54,26 +50,10 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        InputStream fontFile = ResourceLoader.getResourceAsStream("fonts/font.ttf");
-        try {
-            java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontFile);
-//            java.awt.Font font = new java.awt.Font("Arial", java.awt.Font.PLAIN, 22);
-            optionsFont = new UnicodeFont(font.deriveFont(28f));
-            optionsFont.addAsciiGlyphs();
-//            optionsFont.getEffects().add(new OutlineEffect(3, java.awt.Color.black));
-            optionsFont.getEffects().add(new ShadowEffect(java.awt.Color.black, 4, 4, 0.7f));
-            optionsFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
-            optionsFont.loadGlyphs();
 
-            highlightedFont = new UnicodeFont(font.deriveFont(32f));
-            highlightedFont.addAsciiGlyphs();
-            highlightedFont.getEffects().add(new ShadowEffect(java.awt.Color.black, 4, 4, 0.7f));
-            highlightedFont.getEffects().add(new ColorEffect(new java.awt.Color(255, 90, 255)));
-            highlightedFont.loadGlyphs();
+        optionsFont = gc.getFontLoader().getFont(GameFont.DEFAULT_SHADOW);
+        highlightedFont = gc.getFontLoader().getFont(GameFont.DEFAULT_HIGHLIGHT);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
         newGame = createMenuButton(container, "New game", HOVER_C);
         settings = createMenuButton(container, "Settings", HOVER_D);

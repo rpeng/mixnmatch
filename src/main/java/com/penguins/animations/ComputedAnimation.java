@@ -34,5 +34,5 @@ public abstract class ComputedAnimation extends Animation {
         drawComputed(x, y, width, height, col);
     }
 
-    public abstract void drawComputed(float x, float y, float width, float height, Color col);
+    public void drawComputed(float x, float y, float width, float height, Color col){}
 }

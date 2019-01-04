@@ -21,7 +21,8 @@ public class SoundController {
         sfx = ImmutableMap.of(SoundEffect.HOVER_C, new Sound("sfx/sfx_hover_C.ogg"),
                 SoundEffect.HOVER_D, new Sound("sfx/sfx_hover_D.ogg"),
                 SoundEffect.HOVER_E, new Sound("sfx/sfx_hover_E.ogg"),
-                SoundEffect.SELECT, new Sound("sfx/sfx_select.ogg"));
+                SoundEffect.SELECT, new Sound("sfx/sfx_select.ogg"),
+                SoundEffect.TYPE, new Sound("sfx/sfx_type.ogg"));
 
         music = ImmutableMap.of(Song.TITLE, new Music("music/normal_menu.ogg"),
                 Song.BOARD, new Music("music/normal_board.ogg"));
@@ -29,18 +30,23 @@ public class SoundController {
     }
 
     public void fadeTo(Song nextSong){
-        currentSong.fade(1000, 0, true);
-        currentSong.addListener(new MusicListener() {
-            @Override
-            public void musicEnded(Music m) {
-                playSoundtrack(nextSong);
-                currentSong = music.get(nextSong);
-            }
+        if (currentSong != null){
+            currentSong.fade(1000, 0, true);
+            currentSong.addListener(new MusicListener() {
+                @Override
+                public void musicEnded(Music m) {
+                    playSoundtrack(nextSong);
+                }
 
-            @Override
-            public void musicSwapped(Music music, Music newMusic) {}
-        });
+                @Override
+                public void musicSwapped(Music music, Music newMusic) {}
+            });
+        }else{
+            playSoundtrack(nextSong);
+
+        }
     }
+
     public void playSoundtrack(Song song) {
         music.get(song).loop();
         currentSong = music.get(song);

@@ -1,6 +1,8 @@
 package com.penguins.components;
 
+import com.penguins.GameController;
 import com.penguins.animations.TileFlipAnimation;
+import com.penguins.sound.SoundEffect;
 import com.penguins.text.Zalgo;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -8,16 +10,20 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.gui.GUIContext;
 
+import static com.penguins.sound.SoundEffect.HOVER_C;
+
 public class TileComponent extends MouseOverComponent {
     private static Image[] idleFrames;
     private static Font font;
+    private final GameController gc;
     private final char symbol;
     private final Animation idleAnimation;
     private final Animation tileFlipAnimation;
     private boolean flipping;
 
-    public TileComponent(GUIContext container, char symbol) {
+    public TileComponent(GameController gc, GUIContext container, char symbol) {
         super(container);
+        this.gc = gc;
         this.symbol = symbol;
         this.idleAnimation = new Animation(idleFrames, 60);
         this.idleAnimation.setLooping(true);
@@ -57,6 +63,10 @@ public class TileComponent extends MouseOverComponent {
     protected void onHoverStart() {
         this.idleAnimation.stopAt(-2);
         this.idleAnimation.start();
+
+        if (!flipping){
+            gc.getSoundController().playSoundEffect(HOVER_C);
+        }
     }
 
     @Override
@@ -73,6 +83,8 @@ public class TileComponent extends MouseOverComponent {
     public void onMousePressed() {
         flipping = true;
         tileFlipAnimation.start();
+
+        gc.getSoundController().playSoundEffect(SoundEffect.SELECT);
     }
 
     @Override
